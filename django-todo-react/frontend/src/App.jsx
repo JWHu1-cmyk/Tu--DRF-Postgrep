@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import Modal from "./components/Modal.jsx";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+// Remove the quotes around the URL
+axios.defaults.baseURL = API_URL;
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+
 class App extends Component {
   constructor(props) {
     super(props);
