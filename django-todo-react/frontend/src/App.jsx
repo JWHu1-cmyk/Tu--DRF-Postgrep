@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Modal from "./components/Modal.jsx";
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Remove the quotes around the URL
 axios.defaults.baseURL = API_URL;
