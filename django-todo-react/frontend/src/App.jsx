@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Modal from "./components/Modal.jsx";
 import axios from "axios";
 
-const API_URL = 'https://tu-django-restf-postgrep-production.up.railway.app/';
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Remove the quotes around the URL
 axios.defaults.baseURL = API_URL;
