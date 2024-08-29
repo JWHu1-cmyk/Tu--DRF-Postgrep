@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Modal from "./components/Modal.jsx";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.REACT_APP_API_URL;
 
 // Remove the quotes around the URL
 axios.defaults.baseURL = API_URL;
