@@ -31,6 +31,9 @@ class App extends Component {
   }
 
   refreshList = () => {
+    // Log the current base URL
+    console.log('Current Axios base URL:', axios.defaults.baseURL);
+
     axios
       .get('/api/todos/')
       .then((res) => {
@@ -40,10 +43,14 @@ class App extends Component {
           console.error('API did not return an array:', res.data);
           this.setState({ todoList: [] });
         }
+        // Return the base URL along with the data
+        return { baseURL: axios.defaults.baseURL, data: res.data };
       })
       .catch((err) => {
         console.error('Error fetching todos:', err);
         this.setState({ todoList: [] });
+        // Return the base URL even in case of an error
+        return { baseURL: axios.defaults.baseURL, error: err };
       });
   };
 
