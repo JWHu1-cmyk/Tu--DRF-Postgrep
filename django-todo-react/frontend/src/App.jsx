@@ -15,8 +15,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      todoList: [],  // Initialize as an empty array
       viewCompleted: false,
-      todoList: [],
       modal: false,
       activeItem: {
         title: "",
@@ -33,23 +33,17 @@ class App extends Component {
   refreshList = () => {
     axios
       .get('/api/todos/')
-      .then((res) => this.setState({ todoList: res.data }))
-      .catch((err) => {
-        console.error("Error fetching todos:", err);
-        // Log more detailed error information
-        if (err.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.error("Response data:", err.response.data);
-          console.error("Response status:", err.response.status);
-          console.error("Response headers:", err.response.headers);
-        } else if (err.request) {
-          // The request was made but no response was received
-          console.error("No response received:", err.request);
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          this.setState({ todoList: res.data });
         } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error setting up request:", err.message);
+          console.error('API did not return an array:', res.data);
+          this.setState({ todoList: [] });
         }
+      })
+      .catch((err) => {
+        console.error('Error fetching todos:', err);
+        this.setState({ todoList: [] });
       });
   };
 
