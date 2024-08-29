@@ -2,9 +2,13 @@ import React, { Component } from "react";
 import Modal from "./components/Modal.jsx";
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
+
 // Remove the quotes around the URL
 axios.defaults.baseURL = API_URL;
+
+// Add this line here
+ 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 class App extends Component {
@@ -28,7 +32,7 @@ class App extends Component {
 
   refreshList = () => {
     axios
-      .get("/api/todos/")
+      .get('/api/todos/')
       .then((res) => this.setState({ todoList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -38,17 +42,31 @@ class App extends Component {
   };
 
   handleSubmit = (item) => {
+    // Validate the item before submitting
+    if (!item.title.trim() || !item.description.trim()) {
+      alert("Title and description cannot be empty!");
+      return;
+    }
+
     this.toggle();
 
     if (item.id) {
       axios
         .put(`/api/todos/${item.id}/`, item)
-        .then((res) => this.refreshList());
+        .then((res) => this.refreshList())
+        .catch((error) => {
+          console.error("Error updating item:", error.response.data);
+        });
       return;
     }
     axios
-      .post("/api/todos/", item)
-      .then((res) => this.refreshList());
+      .post('/api/todos/', item)
+      .then((res) => this.refreshList())
+      .catch((error) => {
+        console.error("Error creating item:", error.response.data);
+        // Optionally, you can show an error message to the user here
+        alert("Failed to create item. Please try again.");
+      });
   };
 
   handleDelete = (item) => {
@@ -79,14 +97,14 @@ class App extends Component {
     return (
       <div className="nav nav-tabs">
         <span
-          onClick={() => this.displayCompleted(true)}
           className={this.state.viewCompleted ? "nav-link active" : "nav-link"}
+          onClick={() => this.displayCompleted(true)}
         >
           Complete
         </span>
         <span
-          onClick={() => this.displayCompleted(false)}
           className={this.state.viewCompleted ? "nav-link" : "nav-link active"}
+          onClick={() => this.displayCompleted(false)}
         >
           Incomplete
         </span>
@@ -97,7 +115,7 @@ class App extends Component {
   renderItems = () => {
     const { viewCompleted } = this.state;
     const newItems = this.state.todoList.filter(
-      (item) => item.completed === viewCompleted
+      (item) => item.completed == viewCompleted
     );
 
     return newItems.map((item) => (
