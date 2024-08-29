@@ -1,0 +1,2 @@
+pipenv install django-cors-headers
+pipenv install djangorestframework
