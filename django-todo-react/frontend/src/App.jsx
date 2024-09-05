@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import Modal from "./components/Modal.jsx";
 import axios from "axios";
 
+//
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Remove the quotes around the URL
 axios.defaults.baseURL = API_URL;
 
 // Add this line here
- 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
+//
 class App extends Component {
   constructor(props) {
     super(props);
@@ -66,6 +67,8 @@ class App extends Component {
     }
 
     this.toggle();
+
+    console.log("item", item);
 
     if (item.id) {
       axios

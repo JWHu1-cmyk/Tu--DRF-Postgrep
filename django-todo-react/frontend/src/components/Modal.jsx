@@ -27,8 +27,23 @@ export default class CustomModal extends Component {
     }
 
     const activeItem = { ...this.state.activeItem, [name]: value };
+    // 1. ...this.state.activeItem: This spreads all the existing properties of this.state.activeItem into the new object. It's a way to create a shallow copy of the original object.
+    // 2. [name]: value: This is using computed property names. The name variable (which comes from e.target.name) is used as the key, and value is set as its value.
+    // e is the event object passed by the browser. It has several properties and methods, but in this case, we're particularly interested in e.target, which refers to the DOM element that triggered the event (in this case, the input field that changed).
 
     this.setState({ activeItem });
+    // setState expect an object, thus {} wrapper;
+
+  // The { activeItem } syntax is using object shorthand notation in JavaScript. It's equivalent to writing:
+  // this.setState({ activeItem: activeItem })
+  // This syntax tells React "update the activeItem property of the state with this new activeItem object".
+  // If you have multiple state properties, you could update them like this:
+    // this.setState({
+    //   activeItem: newActiveItem,
+    //   someOtherProperty: newValue
+    // })
+  // Without the {} wrapper, you'd be trying to pass the activeItem object directly to setState(), which is not what setState() expects. 
+
   };
 
   render() {
